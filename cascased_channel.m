@@ -1,18 +1,10 @@
-function [readDecisionErrors] = cascased_channel_with_P(data, spm_rate, P1, mean_offset)
+function [readDecisionErrors] = cascased_channel(data, spm_rate)
     % Parameters
-    P1_init = 2e-4;
-    p1_init = 1.02e-4;
-    p0_init = 1e-6;
-
-    % Calculate Pr, P0
-    Pr = (p1_init - P1_init/2)/(1 - P1_init/2);
-    P0 = 2*p0_init/(1 - Pr);
+    p0 = 1e-6;  % Error probability for 1 -> 0
+    p1 = 1.02e-4;   % Error probability for 0 -> 1
     
-    % Calculate p0, q0, p1, q1
-    p0 = P0/2*(1 - Pr);
-    q0 = (1 - P0/2) + P0/2 * Pr;
-    p1 = P1/2 + (1 - P1/2) * Pr;
-    q1 = (1 - P1/2) * (1 - Pr);
+    q0 = 1-p0;
+    q1 = 1-p1;
 
     mean0 = 1;     % Mean for R0
     mean1 = 2;     % Mean for R1
@@ -40,10 +32,6 @@ function [readDecisionErrors] = cascased_channel_with_P(data, spm_rate, P1, mean
     % Calculate Sigma from spm_rate
     sigma0 = mean0*spm_rate;
     sigma1 = mean1*spm_rate;
-
-    % Apply mean offset to the means
-    mean0 = mean0 + mean_offset;  % Adjust mean0 with mean_offset
-    mean1 = mean1 + mean_offset;  % Adjust mean1 with mean_offset
     
     % Apply Gaussian noise based on bit values
     for i = 1:length(data)
