@@ -2,7 +2,7 @@ clear all
 clc
 
 % Init
-sigma_mu = 5;
+sigma_mu = 7;
 mean_offsets = [-0.25, -0.2, -0.15, -0.1, -0.05];
 
 % P = 0.642;
@@ -15,8 +15,8 @@ P1 = 2.2e-4;
 
 N = 7;
 % packet = N*1000000;
-% packet = 10000000;
-packet = 1000;
+packet = 10000000;
+% packet = 1000;
 
 diff_bits_no_coding = zeros(1,length(mean_offsets));
 diff_bits = zeros(1,length(mean_offsets));
