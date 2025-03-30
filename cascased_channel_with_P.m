@@ -1,4 +1,4 @@
-function [readDecisionErrors] = cascased_channel_with_P(data, spm_rate, P1, mean_offset)
+function [readDecisionErrors] = cascased_channel_with_P(data, spm_rate, P1, mean_offset, sigmaoff_per_mean1)
     % Parameters
     P1_init = 2e-4;
     p1_init = 1.02e-4;
@@ -40,6 +40,7 @@ function [readDecisionErrors] = cascased_channel_with_P(data, spm_rate, P1, mean
     % Calculate Sigma from spm_rate
     sigma0 = mean0*spm_rate;
     sigma1 = mean1*spm_rate;
+    sigma_offset = sigmaoff_per_mean1*mean1;
 
     % Apply mean offset to the means
     mean0 = mean0 + mean_offset;  % Adjust mean0 with mean_offset
@@ -50,7 +51,7 @@ function [readDecisionErrors] = cascased_channel_with_P(data, spm_rate, P1, mean
         if readDisturbErrors(i) == 0
             readDecisionErrors(i) = normrnd(mean0, sigma0);  % Gaussian noise for R0
         else
-            readDecisionErrors(i) = normrnd(mean1, sigma1);  % Gaussian noise for R1
+            readDecisionErrors(i) = normrnd(mean1, sigma1) + normrnd(mean_offset, sigma_offset);  % Gaussian noise for R1
         end
     end
 end

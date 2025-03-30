@@ -39,7 +39,7 @@ parfor ct = 1:length(mean_offsets)
 
         % Passing code word through cascased channel
         % received_data = cascased_channel(code_word, sigma_mu(ct)/100);
-        received_data = cascased_channel_with_P(data_encoded, sigma_mu/100, P1, mean_offsets(ct), sigmaoff_per_mean1/100);
+        received_data = cascased_channel_with_P(data_encoded, sigma_mu/100, P1, mean_offsets(ct));
 
         % Decoding
         data_decoded = anhchi_decoder(received_data);
